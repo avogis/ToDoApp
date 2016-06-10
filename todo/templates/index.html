@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do</title>
+</head>
+<body>
+
+<form action="{% url 'new_todo' %}" method="post">
+    {% csrf_token %}
+    <label for="new_todo">To do: </label>
+    <input id="new_todo" type="text" name="new_todo" value="{{ new_todo }}">
+    <input type="submit" value="Add to list">
+</form>
+
+{% if new %}
+<p>{{ new }}</p>
+{% endif %}
+
+{% if todo_list %}
+    <ul>
+    {% for todo in todo_list %}
+        <li>{{ todo.todo_text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Take a break you have nothing on the to do list!!!</p>
+{% endif %}
+
+</body>
+</html>
