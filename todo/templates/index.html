@@ -7,13 +7,6 @@
 </head>
 <body>
 
-<!--<form action="{% url 'index' %}" method="post">
-    {% csrf_token %}
-    <label for="new_todo">To do: </label>
-    <input id="new_todo" type="text" name="new_todo" value="{{ new_todo }}">
-    <input type="submit" value="Add to list">
-</form>-->
-
 <form method="post" id="get_name">
     {% csrf_token %}
         <div class="fieldWrapper" id="the_post">
@@ -24,7 +17,7 @@
 <script type="text/javascript" src="/static/scripts/main.js"></script>
 
 {% if todo_list %}
-    <ul>
+    <ul id="todos">
     {% for todo in todo_list %}
         <li>{{ todo.todo_text }}</li>
     {% endfor %}

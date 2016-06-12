@@ -9,7 +9,7 @@ from .models import Todo
 
 
 def index(request):
-    todo_list = Todo.objects.all()
+    todo_list = Todo.objects.all().order_by('-id')
     template = loader.get_template('index.html')
     context = {
         'todo_list': todo_list,
@@ -17,18 +17,6 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-
-# def get_name(request):
-#     todo_list = Todo.objects.all()
-#     if request.method == 'POST':
-#         form = TodoForm(request.POST)
-#         if form.is_valid():
-#             todo = Todo(todo_text=form.data['todo'])
-#             todo.save()
-#     else:
-#         form = TodoForm()
-#
-#     return render(request, 'index.html', {'todo_list': todo_list, 'form': form})
 
 def get_name(request):
     print('yolo')
@@ -39,6 +27,7 @@ def get_name(request):
         todo = Todo(todo_text = form['the_post'])
         todo.save()
         response_data['result'] = 'Create post successful!'
+        response_data['todo_text'] = todo.todo_text
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"

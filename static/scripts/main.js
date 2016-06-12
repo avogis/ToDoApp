@@ -20,8 +20,7 @@ $(function() {
             success : function(json) {
                 $('#id_todo').val(''); // remove the value from the input
                 console.log(json); // log the returned json to the console
-                $("#talk").prepend("<li><strong>"+json.text+"</strong> - <em> "+json.author+"</em> - <span> "+json.created+
-                    "</span> - <a id='delete-post-"+json.postpk+"'>delete me</a></li>");
+                $("#todos").prepend("<li>"+json.todo_text+"</li>");
                 console.log("success"); // another sanity check
             },
             // handle a non-successful response
