@@ -1,8 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
 from .forms import TodoForm
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 import json
 
 from .models import Todo
@@ -42,12 +40,8 @@ def delete_todo(request):
     if request.method == 'POST':
         response_data = {}
         form = request.POST
-        print('HELLOOOO')
-        print(form)
         todo = Todo.objects.get(id = form['the_post'])
         todo.delete()
-        # response_data['result'] = 'Create post successful!'
-        # response_data['todo_text'] = todo.todo_text
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"

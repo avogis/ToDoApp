@@ -1,0 +1,28 @@
+li button {
+    margin-left: 10px;
+}
+
+#main {
+    text-align: center;
+    border-style: solid;
+    border-radius: 25px;
+    padding-top: 15px;
+    margin: 60px auto;
+    width: 500px;
+}
+
+#todos {
+    display: block;
+    text-align:center;
+}
+#todos li {
+    display: inherit;
+    padding-top: 5px;
+}
+
+label{
+    margin-right: 7px;
+}
+
+
+

@@ -1,6 +1,43 @@
 $(function() {
 
 
+    $('#id_todo').on('keyup', function(event){
+        if ($(this).val().length !== 0){
+            $('input[type=submit]').removeAttr('disabled');
+        }else{
+            $('input[type=submit]').attr('disabled', 'disabled');
+        }
+    });
+
+    $(document).on('click', '.delete_button', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        delete_todo($(this).attr('data-item-id'));
+    });
+
+
+    function delete_todo(id) {
+        $("#no_todo").text("");
+        console.log("delete is working!") // sanity check
+        $.ajax({
+            url : "delete_todo/", // the endpoint
+            type : "POST", // http method
+            data : { the_post : id }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                $('li.todo_item[data-item-id='+id+']').remove()
+                console.log("success"); // another sanity check
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+
+
     // Submit post on submit
     $('#get_name').on('submit', function(event){
         event.preventDefault();
@@ -88,34 +125,5 @@ $(function() {
             }
         }
     });
-
-
-    $(document).on('click', '.delete_button', function(event){
-        event.preventDefault();
-        console.log("form submitted!")  // sanity check
-        delete_todo($(this).attr('data-item-id'));
-    });
-
-
-    function delete_todo(id) {
-        $("#no_todo").text("");
-        console.log("delete is working!") // sanity check
-        $.ajax({
-            url : "delete_todo/", // the endpoint
-            type : "POST", // http method
-            data : { the_post : id }, // data sent with the post request
-            // handle a successful response
-            success : function(json) {
-                $('li.todo_item[data-item-id='+id+']').remove()
-                console.log("success"); // another sanity check
-            },
-            // handle a non-successful response
-            error : function(xhr,errmsg,err) {
-                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            }
-        });
-    };
 
 });
