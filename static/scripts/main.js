@@ -22,7 +22,7 @@ $(function() {
                 success : function(json) {
                     $('#id_todo').val(''); // remove the value from the input
                     console.log(json); // log the returned json to the console
-                    $("#todos").prepend("<li class="+json.todo_id+">"+json.todo_text+"</li><p class="+json.todo_id+" onclick=delete_todo("+json.todo_id+") >delete</p>");
+                    $("#todos").prepend("<li data-item-id="+json.todo_id+" class=todo_item >"+json.todo_text+"<button data-item-id="+json.todo_id+" class=delete_button>delete</button></li>");
                     console.log("success"); // another sanity check
                 },
                 // handle a non-successful response
@@ -88,5 +88,34 @@ $(function() {
             }
         }
     });
+
+
+    $(document).on('click', '.delete_button', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        delete_todo($(this).attr('data-item-id'));
+    });
+
+
+    function delete_todo(id) {
+        $("#no_todo").text("");
+        console.log("delete is working!") // sanity check
+        $.ajax({
+            url : "delete_todo/", // the endpoint
+            type : "POST", // http method
+            data : { the_post : id }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                $('li.todo_item[data-item-id='+id+']').remove()
+                console.log("success"); // another sanity check
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
 
 });

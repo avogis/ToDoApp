@@ -17,39 +17,37 @@
 
 <ul id="todos">
 {% if todo_list %}
-
     {% for todo in todo_list %}
-        <li class="{{todo.id}}" >{{ todo.todo_text }}</li><p class="{{todo.id}}" onclick="delete_todo({{todo.id}})" >delete</p>
+        <li data-item-id="{{todo.id}}" class="todo_item" >{{ todo.todo_text }}<button data-item-id="{{todo.id}}" class="delete_button">delete</button></li>
     {% endfor %}
-
 {% endif %}
 </ul>
 
 <p id="no_todo"></p>
 
-<script>
-    function delete_todo(id) {
-        $("#no_todo").text("");
-        console.log("delete is working!") // sanity check
-        $.ajax({
-            url : "delete_todo/", // the endpoint
-            type : "POST", // http method
-            data : { the_post : id }, // data sent with the post request
-            // handle a successful response
-            success : function(json) {
-                console.log($("."+id))
-                $("."+id).remove()
-                console.log("success"); // another sanity check
-            },
-            // handle a non-successful response
-            error : function(xhr,errmsg,err) {
-                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            }
-        });
-    };
-</script>
+<!--<script>-->
+    <!--function delete_todo(id) {-->
+        <!--$("#no_todo").text("");-->
+        <!--console.log("delete is working!") // sanity check-->
+        <!--$.ajax({-->
+            <!--url : "delete_todo/", // the endpoint-->
+            <!--type : "POST", // http method-->
+            <!--data : { the_post : id }, // data sent with the post request-->
+            <!--// handle a successful response-->
+            <!--success : function(json) {-->
+                <!--console.log($("."+id))-->
+                <!--$("."+id).remove()-->
+                <!--console.log("success"); // another sanity check-->
+            <!--},-->
+            <!--// handle a non-successful response-->
+            <!--error : function(xhr,errmsg,err) {-->
+                <!--$('#results').html("<div>Oops! We have encountered an error: "+errmsg+-->
+                    <!--" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom-->
+                <!--console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console-->
+            <!--}-->
+        <!--});-->
+    <!--};-->
+<!--</script>-->
 <script type="text/javascript" src="/static/scripts/main.js"></script>
 
 
