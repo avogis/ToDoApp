@@ -19,15 +19,14 @@ def index(request):
 
 
 def get_name(request):
-    print('yolo')
     if request.method == 'POST':
         response_data = {}
         form = request.POST
-        print(form['the_post'])
-        todo = Todo(todo_text = form['the_post'])
+        todo = Todo(todo_text=form['the_post'])
         todo.save()
         response_data['result'] = 'Create post successful!'
         response_data['todo_text'] = todo.todo_text
+        response_data['todo_id'] = todo.id
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"
@@ -39,3 +38,22 @@ def get_name(request):
         )
 
 
+def delete_todo(request):
+    if request.method == 'POST':
+        response_data = {}
+        form = request.POST
+        print('HELLOOOO')
+        print(form)
+        todo = Todo.objects.get(id = form['the_post'])
+        todo.delete()
+        # response_data['result'] = 'Create post successful!'
+        # response_data['todo_text'] = todo.todo_text
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

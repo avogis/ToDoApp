@@ -9,22 +9,48 @@
 
 <form method="post" id="get_name">
     {% csrf_token %}
-        <div class="fieldWrapper" id="the_post">
+        <div id="the_post">
             {{ form }}
+            <input type="submit" value="Submit" />
         </div>
-    <input type="submit" value="Submit" />
 </form>
-<script type="text/javascript" src="/static/scripts/main.js"></script>
 
+<ul id="todos">
 {% if todo_list %}
-    <ul id="todos">
+
     {% for todo in todo_list %}
-        <li>{{ todo.todo_text }}</li>
+        <li class="{{todo.id}}" >{{ todo.todo_text }}</li><p class="{{todo.id}}" onclick="delete_todo({{todo.id}})" >delete</p>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>Take a break you have nothing on the to do list!!!</p>
+
 {% endif %}
+</ul>
+
+<p id="no_todo"></p>
+
+<script>
+    function delete_todo(id) {
+        $("#no_todo").text("");
+        console.log("delete is working!") // sanity check
+        $.ajax({
+            url : "delete_todo/", // the endpoint
+            type : "POST", // http method
+            data : { the_post : id }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log($("."+id))
+                $("."+id).remove()
+                console.log("success"); // another sanity check
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+</script>
+<script type="text/javascript" src="/static/scripts/main.js"></script>
 
 
 </body>
