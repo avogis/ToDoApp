@@ -16,47 +16,39 @@ $(function() {
 
 
     function delete_todo(id) {
-        $("#no_todo").text("");
         $.ajax({
-            url : "delete_todo/", // the endpoint
-            type : "POST", // http method
-            data : { the_post : id }, // data sent with the post request
-            // handle a successful response
+            url : "delete_todo/",
+            type : "POST",
+            data : { the_post : id },
             success : function(json) {
                 $('li.todo_item[data-item-id='+id+']').remove()
             },
-            // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                $('#results').html("<div>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
             }
         });
     };
 
 
-    // Submit post on submit
-    $('#get_name').on('submit', function(event){
+    $('#new_todo_form').on('submit', function(event){
         event.preventDefault();
         create_post();
     });
 
-    // AJAX for posting
+
     function create_post() {
         $.ajax({
-            url : "get_name/", // the endpoint
-            type : "POST", // http method
-            data : { the_post : $('#id_todo').val() }, // data sent with the post request
-            // handle a successful response
+            url : "add_new_todo/",
+            type : "POST",
+            data : { the_post : $('#id_todo').val() },
             success : function(json) {
-                $('#id_todo').val(''); // remove the value from the input
+                $('#id_todo').val('');
                 $("#todos").prepend("<li data-item-id="+json.todo_id+" class=todo_item >"+json.todo_text+"<button data-item-id="+json.todo_id+" class=delete_button>delete</button></li>");
             },
-            // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
             }
         });
     };

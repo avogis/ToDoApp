@@ -16,12 +16,12 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def get_name(request):
+def add_new_todo(request):
     if request.method == 'POST':
-        response_data = {}
         form = request.POST
         todo = Todo(todo_text=form['the_post'])
         todo.save()
+        response_data = {}
         response_data['result'] = 'Create post successful!'
         response_data['todo_text'] = todo.todo_text
         response_data['todo_id'] = todo.id
@@ -40,7 +40,7 @@ def delete_todo(request):
     if request.method == 'POST':
         response_data = {}
         form = request.POST
-        todo = Todo.objects.get(id = form['the_post'])
+        todo = Todo.objects.get(id=form['the_post'])
         todo.delete()
         return HttpResponse(
             json.dumps(response_data),
