@@ -9,5 +9,4 @@ urlpatterns = [
     url(r'^delete_todo/$', views.delete_todo, name='delete_todo'),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
-
 ]
