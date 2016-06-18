@@ -13,7 +13,7 @@
         <ul id="all_projects">
         {% if projects_list %}
             {% for project in projects_list %}
-                <li class="project"> <button data-item-id="{{project.id}}" class="project_button">{{ project.project_text }}</button></li>
+                <li class="project" data-item-id="{{project.id}}"> <button data-item-id="{{project.id}}" class="project_button">{{ project.project_text }}</button></li>
             {% endfor %}
         {% endif %}
         </ul>
@@ -29,7 +29,7 @@
 </div>
 <div id="main">
 </div>
- <p id="results"></p>
+<p id="results"></p>
 <script type="text/javascript" src="/static/scripts/main.js"></script>
 
 

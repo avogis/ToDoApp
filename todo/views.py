@@ -47,7 +47,6 @@ def add_new_todo(request):
 
 def add_new_project(request):
     if request.method == 'POST':
-        print('here')
         form = request.POST
         project = Project(project_text=form['text'])
         project.save()
@@ -61,6 +60,7 @@ def add_new_project(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
+
 
 def delete_todo(request):
     if request.method == 'POST':
@@ -79,8 +79,24 @@ def delete_todo(request):
         )
 
 
+def delete_project(request):
+    if request.method == 'POST':
+        response_data = {}
+        form = request.POST
+        project = Project.objects.get(id=form['the_post'])
+        project.delete()
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+
+
 def done_todo(request):
-    print("here??")
     if request.method == 'POST':
         respone_data = {}
         post = request.POST

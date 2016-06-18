@@ -49,6 +49,28 @@ $(function() {
         });
     };
 
+    $(document).on('click', '.delete_project_button', function(event){
+        event.preventDefault();
+        delete_project($(this).attr('data-item-id'));
+    });
+
+    function delete_project(id) {
+        $.ajax({
+            url : "delete_project/",
+            type : "POST",
+            data : { the_post : id },
+            success : function(json) {
+                $('#main').html('');
+                $('li.project[data-item-id='+id+']').remove();
+
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    };
+
 
     $(document).on('click', '.done_button', function(event){
         event.preventDefault();
@@ -102,14 +124,13 @@ $(function() {
 
 
     function create_new_project() {
-        console.log('HERE')
         $.ajax({
             url : "add_new_project/",
             type : "POST",
             data : { text : $('#id_project').val()},
             success : function(json) {
                 $('#id_project').val('');
-                $("#all_projects").prepend("<li class=project> <button data-item-id="+json.project_id+" class=project_button>"+json.project_text+"</button></li>");
+                $("#all_projects").prepend("<li class=project data-item-id="+json.project_id+"> <button data-item-id="+json.project_id+" class=project_button>"+json.project_text+"</button></li>");
             },
             error : function(xhr,errmsg,err) {
                 $('#results').html("<div>An error!!!: "+errmsg+"</div>");
