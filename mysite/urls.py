@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.http import HttpResponseRedirect
 
 urlpatterns = [
+    url(r'^$', lambda r: HttpResponseRedirect('todo/')),
     url(r'^todo/', include('todo.urls')),
     url(r'^admin/', admin.site.urls),
 ]
+
 
 

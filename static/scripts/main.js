@@ -1,6 +1,6 @@
 $(function() {
 
-    $(document).on('keyup', '#id_todo', function(event){
+    $(document).on('keyup', 'input[type=text]', function(event){
         if ($(this).val().length !== 0){
             $('input[type=submit]').removeAttr('disabled');
         }else{
@@ -73,20 +73,43 @@ $(function() {
 
     $(document).on('submit', '#new_todo_form', function(event){
         event.preventDefault();
-        create_post();
+        create_new_todo();
     });
 
 
-    function create_post() {
+    function create_new_todo() {
         $.ajax({
             url : "add_new_todo/",
             type : "POST",
-            data : { the_post : $('#id_todo').val() },
+            data : { text : $('#id_todo').val(),  project_id: $('#id_todo').attr('data-item-id')},
             success : function(json) {
                 $('#id_todo').val('');
                 $("#todos").prepend("<li data-item-id="+json.todo_id+" class=todo_item >"+json.todo_text+
                 "<button data-item-id="+json.todo_id+" class=done_button>Done</button>"+
                 "<button data-item-id="+json.todo_id+" class=delete_button>Delete</button></li>");
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    };
+
+    $(document).on('submit', '#new_project_form', function(event){
+        event.preventDefault();
+        create_new_project();
+    });
+
+
+    function create_new_project() {
+        console.log('HERE')
+        $.ajax({
+            url : "add_new_project/",
+            type : "POST",
+            data : { text : $('#id_project').val()},
+            success : function(json) {
+                $('#id_project').val('');
+                $("#all_projects").prepend("<li class=project> <button data-item-id="+json.project_id+" class=project_button>"+json.project_text+"</button></li>");
             },
             error : function(xhr,errmsg,err) {
                 $('#results').html("<div>An error!!!: "+errmsg+"</div>");
