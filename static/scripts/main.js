@@ -1,12 +1,32 @@
 $(function() {
 
-    $('#id_todo').on('keyup', function(event){
+    $(document).on('keyup', '#id_todo', function(event){
         if ($(this).val().length !== 0){
             $('input[type=submit]').removeAttr('disabled');
         }else{
             $('input[type=submit]').attr('disabled', 'disabled');
         }
     });
+
+    $(document).on('click', '.project_button', function(event){
+        event.preventDefault();
+        show_todos($(this).attr('data-item-id'));
+    });
+
+    function show_todos(id){
+        $.ajax({
+            url : "show_todos/",
+            type : "POST",
+            data : { the_post : id },
+            success : function(json) {
+                $('#main').html(json);
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    };
 
     $(document).on('click', '.delete_button', function(event){
         event.preventDefault();
@@ -51,7 +71,7 @@ $(function() {
         });
     };
 
-    $('#new_todo_form').on('submit', function(event){
+    $(document).on('submit', '#new_todo_form', function(event){
         event.preventDefault();
         create_post();
     });

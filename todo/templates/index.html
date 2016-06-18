@@ -7,24 +7,16 @@
     <link rel="stylesheet" type="text/css" href="/static/scripts/main.css">
 </head>
 <body>
-<div id="main">
-    <form method="post" id="new_todo_form">
-        {% csrf_token %}
-            <div id="new_todo">
-                {{ form }}
-                <input type="submit" value="Submit" disabled="disabled"/>
-            </div>
-    </form>
-
-    <ul id="todos">
-    {% if todo_list %}
-        {% for todo in todo_list %}
-            <li data-item-id="{{todo.id}}" class="todo_item {{todo.complete}}">{{ todo.todo_text }}<button data-item-id="{{todo.id}}" class="done_button {{todo.complete}}">Done</button><button data-item-id="{{todo.id}}" class="delete_button">Delete</button></li>
+<div id="projects">
+    <ul id="all_projects">
+    {% if projects_list %}
+        {% for project in projects_list %}
+            <li class="project"> <button data-item-id="{{project.id}}" class="project_button">{{ project.project_text }}</button></li>
         {% endfor %}
     {% endif %}
     </ul>
-
-    <p id="results"></p>
+</div>
+<div id="main">
 </div>
 <script type="text/javascript" src="/static/scripts/main.js"></script>
 

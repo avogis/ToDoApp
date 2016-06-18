@@ -1,19 +1,39 @@
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
 from django.template import loader
 from .forms import TodoForm
 import json
 
-from .models import Todo
+from .models import Todo, Project
 
 
 def index(request):
+    projects_list = Project.objects.all()
     todo_list = Todo.objects.all().order_by('-id')
     template = loader.get_template('index.html')
     context = {
-        'todo_list': todo_list,
-        'form': TodoForm
+        'projects_list': projects_list,
+        # 'todo_list': todo_list,
+        # 'form': TodoForm
     }
     return HttpResponse(template.render(context, request))
+
+
+def show_todos(request):
+    if request.method == 'POST':
+        project_id = request.POST['the_post']
+        project = Project.objects.get(pk=project_id)
+        todo_list = project.todo_set.all()
+        response_data = {}
+        #todo_list = [ob.as_json() for ob in all_todos]
+        response_data['todo_list'] = todo_list
+        projects_list = Project.objects.all()
+        context = {
+            'todo_list': todo_list,
+            'form': TodoForm
+        }
+        template = loader.get_template('all_todos.html')
+        return HttpResponse(template.render(context, request))
 
 
 def add_new_todo(request):

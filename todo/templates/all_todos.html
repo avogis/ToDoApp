@@ -1,0 +1,16 @@
+<form method="post" id="new_todo_form">
+    {% csrf_token %}
+    <div id="new_todo">
+        {{ form }}
+        <input type="submit" value="Submit" disabled="disabled"/>
+    </div>
+</form>
+<ul id="todos">
+    {% if todo_list %}
+
+        {% for todo in todo_list %}
+            <li data-item-id="{{todo.id}}" class="todo_item {{todo.complete}}">{{ todo.todo_text }}<button data-item-id="{{todo.id}}" class="done_button {{todo.complete}}">Done</button><button data-item-id="{{todo.id}}" class="delete_button">Delete</button></li>
+        {% endfor %}
+    {% endif %}
+ </ul>
+ <p id="results"></p>
