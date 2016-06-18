@@ -20,9 +20,16 @@ li button {
     padding-top: 5px;
 }
 
-label{
+label {
     margin-right: 7px;
 }
 
+.True {
+    text-decoration: line-through;
+}
+
+.done_button.True {
+    display: none;
+}
 
 

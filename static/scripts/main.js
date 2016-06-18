@@ -1,6 +1,5 @@
 $(function() {
 
-
     $('#id_todo').on('keyup', function(event){
         if ($(this).val().length !== 0){
             $('input[type=submit]').removeAttr('disabled');
@@ -21,7 +20,7 @@ $(function() {
             type : "POST",
             data : { the_post : id },
             success : function(json) {
-                $('li.todo_item[data-item-id='+id+']').remove()
+                $('li.todo_item[data-item-id='+id+']').remove();
             },
             error : function(xhr,errmsg,err) {
                 $('#results').html("<div>An error!!!: "+errmsg+"</div>");
@@ -30,6 +29,27 @@ $(function() {
         });
     };
 
+
+    $(document).on('click', '.done_button', function(event){
+        event.preventDefault();
+        done_todo($(this).attr('data-item-id'));
+    });
+
+    function done_todo(id){
+        $.ajax({
+            url : "done_todo/",
+            type : "POST",
+            data : { the_post : id },
+            success : function(json) {
+                $('li.todo_item[data-item-id='+id+']').addClass('True').removeClass('False');
+                $('button.done_button[data-item-id='+id+']').hide();
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    };
 
     $('#new_todo_form').on('submit', function(event){
         event.preventDefault();
@@ -44,7 +64,9 @@ $(function() {
             data : { the_post : $('#id_todo').val() },
             success : function(json) {
                 $('#id_todo').val('');
-                $("#todos").prepend("<li data-item-id="+json.todo_id+" class=todo_item >"+json.todo_text+"<button data-item-id="+json.todo_id+" class=delete_button>delete</button></li>");
+                $("#todos").prepend("<li data-item-id="+json.todo_id+" class=todo_item >"+json.todo_text+
+                "<button data-item-id="+json.todo_id+" class=done_button>Done</button>"+
+                "<button data-item-id="+json.todo_id+" class=delete_button>Delete</button></li>");
             },
             error : function(xhr,errmsg,err) {
                 $('#results').html("<div>An error!!!: "+errmsg+"</div>");

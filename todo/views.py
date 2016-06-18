@@ -51,3 +51,22 @@ def delete_todo(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
+
+
+def done_todo(request):
+    print("here??")
+    if request.method == 'POST':
+        respone_data = {}
+        post = request.POST
+        todo = Todo.objects.get(id=post['the_post'])
+        todo.complete = True
+        todo.save()
+        return HttpResponse(
+            json.dumps(respone_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

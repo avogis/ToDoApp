@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^add_new_todo/$', views.add_new_todo, name='add_new_todo'),
     url(r'^delete_todo/$', views.delete_todo, name='delete_todo'),
+    url(r'^done_todo/$', views.done_todo, name='done_todo'),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
 ]
