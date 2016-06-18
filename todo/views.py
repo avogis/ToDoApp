@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 import json
+from django.utils.html import escape
 
 from .models import Todo, Project
 
@@ -31,7 +32,7 @@ def show_todos(request):
 def add_new_todo(request):
     if request.method == 'POST':
         form = request.POST
-        todo = Todo(todo_text=form['text'], project_id=form['project_id'])
+        todo = Todo(todo_text=escape(form['text']), project_id=form['project_id'])
         todo.save()
         response_data = {'result': 'Create post successful!', 'todo_text': todo.todo_text, 'todo_id': todo.id}
         return HttpResponse(
@@ -48,7 +49,7 @@ def add_new_todo(request):
 def add_new_project(request):
     if request.method == 'POST':
         form = request.POST
-        project = Project(project_text=form['text'])
+        project = Project(project_text=escape(form['text']))
         project.save()
         response_data = {'result': 'Create post successful!', 'project_text': project.project_text, 'project_id': project.id}
         return HttpResponse(
