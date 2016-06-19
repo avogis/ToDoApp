@@ -10,7 +10,7 @@ li button {
     display: block;
     text-align:center;
 }
-#todos li {
+li {
     display: inherit;
     padding-top: 5px;
 }

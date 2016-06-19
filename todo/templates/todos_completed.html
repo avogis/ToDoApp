@@ -1,0 +1,7 @@
+<ul id="todos_completed" >
+    {% if todo_completed_list %}
+        {% for todo in todo_completed_list %}
+            <li data-item-id="{{ todo.id }}" class="todo_item {{ todo.complete }}">{{ todo.todo_text }}<button data-item-id="{{ todo.id }}" class="delete_button">Delete</button></li>
+        {% endfor %}
+    {% endif %}
+</ul>

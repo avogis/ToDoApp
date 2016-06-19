@@ -8,6 +8,7 @@
             <input type="submit" value="Submit" disabled="disabled"/>
         </div>
     </form>
+    <button data-item-id="{{ project_id }}" class="complete">Show done todos</button>
     <ul id="todos" >
         {% if todo_list %}
             {% for todo in todo_list %}
@@ -15,5 +16,7 @@
             {% endfor %}
         {% endif %}
     </ul>
+    <div class="todos_completed">
+    </div>
 <button data-item-id="{{ project_id }}" class="delete_project_button">Delete project {{project_text}}</button>
 </div>

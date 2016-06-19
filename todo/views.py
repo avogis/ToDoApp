@@ -19,7 +19,7 @@ def show_todos(request):
     if request.method == 'POST':
         project_id = request.POST['the_post']
         project = Project.objects.get(pk=project_id)
-        todo_list = project.todo_set.all().order_by('-id')
+        todo_list = project.todo_set.filter(complete=False).order_by('-id')
         context = {
             'todo_list': todo_list,
             'project_id': project_id,
@@ -32,6 +32,24 @@ def show_todos(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
+
+
+def show_completed(request):
+    if request.method == 'POST':
+        project_id = request.POST['the_post']
+        project = Project.objects.get(pk=project_id)
+        todo_completed_list = project.todo_set.filter(complete=True).order_by('-id')
+        context = {
+            'todo_completed_list': todo_completed_list,
+        }
+        template = loader.get_template('todos_completed.html')
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+
 
 
 def add_new_todo(request):

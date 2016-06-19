@@ -49,6 +49,26 @@ $(function() {
         });
     };
 
+    $(document).on('click', '.complete', function(event){
+        event.preventDefault();
+        show_completed($(this).attr('data-item-id'));
+    });
+
+    function show_completed(project_id){
+        $.ajax({
+            url : "show_completed/",
+            type : "POST",
+            data : { the_post : project_id },
+            success : function(json) {
+                $('.todos_completed').html(json);
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div>An error!!!: "+errmsg+"</div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    };
+
     $(document).on('click', '.delete_project_button', function(event){
         event.preventDefault();
         delete_project($(this).attr('data-item-id'));
