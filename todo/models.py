@@ -12,8 +12,3 @@ class Todo(models.Model):
     complete = models.BooleanField(default=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1)
 
-    def as_json(self):
-        return dict(
-            id=self.id,
-            todo_text=self.todo_text,
-            complete=self.complete)

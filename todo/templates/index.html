@@ -13,7 +13,7 @@
         <ul id="all_projects">
         {% if projects_list %}
             {% for project in projects_list %}
-                <li class="project" data-item-id="{{project.id}}"> <button data-item-id="{{project.id}}" class="project_button">{{ project.project_text }}</button></li>
+                <li class="project" data-item-id="{{ project.id }}"> <button data-item-id="{{ project.id }}" class="project_button">{{ project.project_text }}</button></li>
             {% endfor %}
         {% endif %}
         </ul>
@@ -22,7 +22,7 @@
         {% csrf_token %}
         <div id="new_project">
             <label for="id_project">New project:</label>
-            <input id="id_project" data-item-id="{{project_id}}" maxlength="200" name="project" type="text">
+            <input id="id_project" data-item-id="{{ project_id }}" maxlength="200" name="project" type="text">
             <input type="submit" value="Submit" disabled="disabled"/>
         </div>
     </form>

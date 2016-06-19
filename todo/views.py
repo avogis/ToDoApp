@@ -27,6 +27,11 @@ def show_todos(request):
         }
         template = loader.get_template('all_todos.html')
         return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
 
 
 def add_new_todo(request):
