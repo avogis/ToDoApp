@@ -1,5 +1,5 @@
 <div class="todos_for_project">
-    <h2>{{ project_text }}</h2>
+    <h2>Project {{ project_text }}</h2>
     <form id="new_todo_form">
         {% csrf_token %}
         <div id="new_todo">
@@ -9,6 +9,7 @@
         </div>
     </form>
     <button data-item-id="{{ project_id }}" class="complete">Show done todos</button>
+    <h3>Todo:</h3>
     <ul id="todos" >
         {% if todo_list %}
             {% for todo in todo_list %}
